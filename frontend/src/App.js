@@ -1,4 +1,14 @@
 import React, { useEffect, useState } from "react";
+import brownieImg from "./tasty-bite-images/brownie.png";
+import cheeseburgerImg from "./tasty-bite-images/cheeseburger.png";
+import cookieImg from "./tasty-bite-images/cookie.png";
+import fountainDrinkImg from "./tasty-bite-images/fountain_drink.png";
+import friesImg from "./tasty-bite-images/fries.png";
+import hamburgerImg from "./tasty-bite-images/hamburger.png";
+import icecreamImg from "./tasty-bite-images/icecream.png";
+import milkshakeImg from "./tasty-bite-images/milkshake.png";
+import sauceImg from "./tasty-bite-images/sauce.png";
+import subImg from "./tasty-bite-images/sub.png";
 
 const API = "";
 
@@ -13,16 +23,16 @@ const API = "";
 //      (a commented-out <img> tag is already waiting for you in the menu card below)
 
 const ITEM_IMAGES = {
-  sku1:  "🍔", // Hamburger
-  sku2:  "🍔", // Cheeseburger
-  sku3:  "🥤", // Milkshake
-  sku4:  "🍟", // Fries
-  sku5:  "🥖", // Sub
-  sku6:  "🍦", // Ice Cream
-  sku7:  "🧃", // Fountain Drink
-  sku8:  "🍪", // Cookie
-  sku9:  "🍫", // Brownie
-  sku10: "🥫", // Sauce
+  sku1:  hamburgerImg, // Hamburger
+  sku2:  cheeseburgerImg, // Cheeseburger
+  sku3:  milkshakeImg, // Milkshake
+  sku4:  friesImg, // Fries
+  sku5:  subImg, // Sub
+  sku6:  icecreamImg, // Ice Cream
+  sku7:  fountainDrinkImg, // Fountain Drink
+  sku8:  cookieImg, // Cookie
+  sku9:  brownieImg, // Brownie
+  sku10: sauceImg, // Sauce
 };
 
 export default function App() {
@@ -409,16 +419,19 @@ export default function App() {
       <div style={st.grid}>
         {menu.map((item) => (
           <div key={item.sku} style={st.card}>
-
-            {/* Emoji placeholder — swap for a real image later:
-                <img
-                  src={ITEM_IMAGES[item.sku]}
-                  alt={item.name}
-                  style={{ width: "100%", height: "130px", objectFit: "contain", background: "#fff0f3" }}
-                /> */}
-            <div style={st.cardImageArea}>
-              {ITEM_IMAGES[item.sku]}
-            </div>
+          <div style={st.cardImageArea}>
+            <img
+              src={ITEM_IMAGES[item.sku]}
+              alt={item.name}
+              style={{
+                width: "200%",
+                height: "200%",
+                objectFit: "contain",
+                imageRendering: "pixelated",
+                background: "#fff0f3"
+              }}
+            />
+          </div>
 
             <div style={st.cardLabel}>{item.name.toUpperCase()}</div>
 
