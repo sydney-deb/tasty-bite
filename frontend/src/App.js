@@ -370,7 +370,6 @@ export default function App() {
               {cart.items.map((item) => (
                 <tr key={item.sku}>
                   <td style={st.td}>
-                    <span style={{ marginRight: "0.4rem" }}>{ITEM_IMAGES[item.sku]}</span>
                     {item.name}
                   </td>
                   <td style={st.td}>${item.price.toFixed(2)}</td>
