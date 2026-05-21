@@ -12,16 +12,6 @@ import subImg from "./tasty-bite-images/sub.png";
 
 const API = "";
 
-// ── Item images ───────────────────────────────────────────────────────────────
-// Currently using emojis as placeholders.
-// To swap in your own pixel art from itch.io or OpenGameArt:
-//   1. Put your image file in frontend/src/images/ (e.g. hamburger.png)
-//   2. Import it at the top: import hamburgerImg from "./images/hamburger.png";
-//   3. Replace the emoji string below with the imported variable:
-//      sku1: hamburgerImg
-//   4. In the card, change <div style={st.cardImageArea}> to the <img> tag
-//      (a commented-out <img> tag is already waiting for you in the menu card below)
-
 const ITEM_IMAGES = {
   sku1:  hamburgerImg, // Hamburger
   sku2:  cheeseburgerImg, // Cheeseburger
