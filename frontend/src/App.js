@@ -2,6 +2,29 @@ import React, { useEffect, useState } from "react";
 
 const API = "";
 
+// ── Item images ───────────────────────────────────────────────────────────────
+// Currently using emojis as placeholders.
+// To swap in your own pixel art from itch.io or OpenGameArt:
+//   1. Put your image file in frontend/src/images/ (e.g. hamburger.png)
+//   2. Import it at the top: import hamburgerImg from "./images/hamburger.png";
+//   3. Replace the emoji string below with the imported variable:
+//      sku1: hamburgerImg
+//   4. In the card, change <div style={st.cardImageArea}> to the <img> tag
+//      (a commented-out <img> tag is already waiting for you in the menu card below)
+
+const ITEM_IMAGES = {
+  sku1:  "🍔", // Hamburger
+  sku2:  "🍔", // Cheeseburger
+  sku3:  "🥤", // Milkshake
+  sku4:  "🍟", // Fries
+  sku5:  "🥖", // Sub
+  sku6:  "🍦", // Ice Cream
+  sku7:  "🧃", // Fountain Drink
+  sku8:  "🍪", // Cookie
+  sku9:  "🍫", // Brownie
+  sku10: "🥫", // Sauce
+};
+
 export default function App() {
   const [menu, setMenu] = useState([]);
   const [cart, setCart] = useState({ items: [], subtotal: 0, tax: 0, total: 0 });
@@ -64,128 +87,360 @@ export default function App() {
   const cartCount = cart.items.reduce((sum, i) => sum + i.quantity, 0);
 
   const st = {
-    header: { background: "#c0392b", color: "#fff", padding: "1rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center" },
-    h1: { fontSize: "1.4rem", fontWeight: "bold" },
-    navBtn: { background: "rgba(255,255,255,0.2)", color: "#fff", border: "none", borderRadius: "6px", padding: "0.4rem 1rem", fontWeight: "bold", marginLeft: "0.5rem", cursor: "pointer" },
-    main: { maxWidth: "800px", margin: "2rem auto", padding: "0 1rem" },
-    error: { background: "#fdd", border: "1px solid #c00", borderRadius: "6px", padding: "0.75rem", marginBottom: "1rem" },
-    grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "1rem" },
-    card: { background: "#fff", border: "1px solid #ddd", borderRadius: "8px", padding: "1rem" },
-    cardName: { fontWeight: "bold", fontSize: "1rem", marginBottom: "0.25rem" },
-    cardPrice: { color: "#c0392b", fontWeight: "bold", marginBottom: "0.75rem" },
-    row: { display: "flex", gap: "0.5rem", alignItems: "center" },
-    numInput: { width: "52px", padding: "0.3rem", border: "1px solid #ccc", borderRadius: "4px", textAlign: "center" },
-    addBtn: { background: "#c0392b", color: "#fff", border: "none", borderRadius: "4px", padding: "0.35rem 0.75rem", fontWeight: "bold", cursor: "pointer" },
+    windowFrame: {
+      maxWidth: "860px",
+      margin: "2rem auto",
+      border: "2px solid #f4a7b9",
+      borderRadius: "6px",
+      overflow: "hidden",
+      background: "#fff0f3",
+    },
+    titleBar: {
+      background: "#fff0f3",
+      borderBottom: "2px solid #f4a7b9",
+      padding: "0.5rem 1rem",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    titleText: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.85rem",
+      color: "#e8789a",
+      display: "flex",
+      alignItems: "center",
+      gap: "0.5rem",
+    },
+    windowBtns: { display: "flex", gap: "0.4rem" },
+    windowBtn: {
+      width: "22px",
+      height: "22px",
+      border: "1.5px solid #f4a7b9",
+      borderRadius: "2px",
+      background: "#fff0f3",
+      color: "#e8789a",
+      fontSize: "0.6rem",
+      cursor: "default",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontWeight: "bold",
+    },
+    navBar: {
+      background: "#ffd6e0",
+      padding: "0.5rem 1rem",
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: "0.5rem",
+      borderBottom: "2px solid #f4a7b9",
+    },
+    navBtn: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      background: "#fff0f3",
+      color: "#e8789a",
+      border: "1.5px solid #f4a7b9",
+      borderRadius: "2px",
+      padding: "0.4rem 0.8rem",
+      cursor: "pointer",
+    },
+    main: { padding: "1.5rem" },
+    error: {
+      background: "#ffe0e0",
+      border: "1px solid #f4a7b9",
+      borderRadius: "4px",
+      padding: "0.75rem",
+      marginBottom: "1rem",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      color: "#c0006a",
+    },
+    grid: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+      gap: "1rem",
+    },
+    card: {
+      border: "2px solid #f4a7b9",
+      borderRadius: "4px",
+      overflow: "hidden",
+      background: "#fff8fa",
+      display: "flex",
+      flexDirection: "column",
+    },
+    cardImageArea: {
+      background: "#fff0f3",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "3.5rem",
+      height: "130px",
+    },
+    cardLabel: {
+      background: "#ffd6e0",
+      borderTop: "2px solid #f4a7b9",
+      padding: "0.4rem 0.5rem",
+      textAlign: "center",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.5rem",
+      color: "#7eaacc",
+      letterSpacing: "0.05em",
+    },
+    cardControls: {
+      padding: "0.6rem 0.5rem",
+      display: "flex",
+      alignItems: "center",
+      gap: "0.4rem",
+      justifyContent: "center",
+      background: "#fff8fa",
+    },
+    cardPrice: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.5rem",
+      color: "#e8789a",
+    },
+    numInput: {
+      width: "36px",
+      padding: "0.25rem",
+      border: "1.5px solid #f4a7b9",
+      borderRadius: "2px",
+      textAlign: "center",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.5rem",
+      background: "#fff0f3",
+      color: "#e8789a",
+    },
+    addBtn: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.45rem",
+      background: "#f4a7b9",
+      color: "#fff",
+      border: "none",
+      borderRadius: "2px",
+      padding: "0.35rem 0.5rem",
+      cursor: "pointer",
+    },
     table: { width: "100%", borderCollapse: "collapse", marginBottom: "1.5rem" },
-    th: { textAlign: "left", borderBottom: "2px solid #ddd", padding: "0.5rem" },
-    td: { padding: "0.6rem 0.5rem", borderBottom: "1px solid #eee", verticalAlign: "middle" },
-    qtyBtn: { background: "#eee", border: "none", borderRadius: "4px", width: "28px", height: "28px", fontWeight: "bold", cursor: "pointer" },
-    removeBtn: { background: "none", border: "none", color: "#c00", fontWeight: "bold", fontSize: "1.1rem", cursor: "pointer" },
-    totals: { textAlign: "right", lineHeight: "2" },
-    checkoutBtn: { background: "#27ae60", color: "#fff", border: "none", borderRadius: "6px", padding: "0.75rem 2rem", fontWeight: "bold", fontSize: "1rem", marginTop: "1rem", cursor: "pointer" },
-    confirmation: { textAlign: "center", padding: "3rem 1rem" },
-    backBtn: { background: "#c0392b", color: "#fff", border: "none", borderRadius: "6px", padding: "0.75rem 2rem", fontWeight: "bold", fontSize: "1rem", cursor: "pointer" },
+    th: {
+      textAlign: "left",
+      borderBottom: "2px solid #f4a7b9",
+      padding: "0.5rem",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.5rem",
+      color: "#e8789a",
+    },
+    td: {
+      padding: "0.6rem 0.5rem",
+      borderBottom: "1px solid #ffd6e0",
+      verticalAlign: "middle",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.5rem",
+      color: "#555",
+    },
+    row: { display: "flex", gap: "0.4rem", alignItems: "center" },
+    qtyBtn: {
+      background: "#ffd6e0",
+      border: "1.5px solid #f4a7b9",
+      borderRadius: "2px",
+      width: "24px",
+      height: "24px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      color: "#e8789a",
+    },
+    removeBtn: {
+      background: "none",
+      border: "none",
+      color: "#f4a7b9",
+      fontWeight: "bold",
+      fontSize: "1rem",
+      cursor: "pointer",
+    },
+    totals: {
+      textAlign: "right",
+      lineHeight: "2.2",
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      color: "#888",
+    },
+    checkoutBtn: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      background: "#f4a7b9",
+      color: "#fff",
+      border: "none",
+      borderRadius: "2px",
+      padding: "0.75rem 1.5rem",
+      marginTop: "1rem",
+      cursor: "pointer",
+    },
+    confirmation: {
+      textAlign: "center",
+      padding: "3rem 1rem",
+    },
+    backBtn: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      background: "#f4a7b9",
+      color: "#fff",
+      border: "none",
+      borderRadius: "2px",
+      padding: "0.75rem 1.5rem",
+      cursor: "pointer",
+    },
+    pageTitle: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.75rem",
+      color: "#e8789a",
+      marginBottom: "1.2rem",
+    },
+    emptyMsg: {
+      fontFamily: "'Press Start 2P', monospace",
+      fontSize: "0.55rem",
+      color: "#aaa",
+      lineHeight: "2",
+    },
   };
 
-  if (view === "confirmation") return (
-    <div>
-      <header style={st.header}><span style={st.h1}>Tasty Bite</span></header>
-      <main style={st.main}>
-        <div style={st.confirmation}>
-          <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🎉</div>
-          <h2 style={{ marginBottom: "0.5rem" }}>Order Received!</h2>
-          <p style={{ color: "#555", marginBottom: "1rem" }}>Your order has been received. Thank you!</p>
-          {order && <p style={{ marginBottom: "1.5rem" }}><strong>Total paid: ${order.total.toFixed(2)}</strong></p>}
-          <button style={st.backBtn} onClick={() => { setView("menu"); setOrder(null); }}>Order Again</button>
+  const WindowShell = ({ children, showNav = true }) => (
+    <div style={st.windowFrame}>
+      <div style={st.titleBar}>
+        <span style={st.titleText}>🍓 Tasty Bite</span>
+        <div style={st.windowBtns}>
+          <div style={st.windowBtn}>—</div>
+          <div style={st.windowBtn}>□</div>
+          <div style={st.windowBtn}>✕</div>
         </div>
-      </main>
+      </div>
+      {showNav && (
+        <div style={st.navBar}>
+          <button style={st.navBtn} onClick={() => setView("menu")}>Menu</button>
+          <button style={st.navBtn} onClick={() => { refreshCart(); setView("cart"); }}>
+            Cart{cartCount > 0 ? ` (${cartCount})` : ""}
+          </button>
+        </div>
+      )}
+      <div style={st.main}>{children}</div>
     </div>
+  );
+
+  if (view === "confirmation") return (
+    <WindowShell showNav={false}>
+      <div style={st.confirmation}>
+        <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🎀</div>
+        <div style={st.pageTitle}>Order received!</div>
+        <p style={{ ...st.emptyMsg, marginBottom: "1rem" }}>
+          Your order has been received. Thank you!
+        </p>
+        {order && (
+          <p style={{ ...st.emptyMsg, marginBottom: "1.5rem" }}>
+            Total paid: ${order.total.toFixed(2)}
+          </p>
+        )}
+        <button style={st.backBtn} onClick={() => { setView("menu"); setOrder(null); }}>
+          Order again ♡
+        </button>
+      </div>
+    </WindowShell>
   );
 
   if (view === "cart") return (
-    <div>
-      <header style={st.header}>
-        <span style={st.h1}>Tasty Bite</span>
-        <div>
-          <button style={st.navBtn} onClick={() => setView("menu")}>Menu</button>
-          <button style={st.navBtn} onClick={() => { refreshCart(); setView("cart"); }}>Cart {cartCount > 0 && `(${cartCount})`}</button>
-        </div>
-      </header>
-      <main style={st.main}>
-        <h2 style={{ marginBottom: "1rem" }}>Your Cart</h2>
-        {cart.items.length === 0
-          ? <p style={{ color: "#777" }}>Your cart is empty. <button style={{ ...st.addBtn, marginLeft: "0.5rem" }} onClick={() => setView("menu")}>Browse Menu</button></p>
-          : <>
-              <table style={st.table}>
-                <thead>
-                  <tr>
-                    <th style={st.th}>Item</th>
-                    <th style={st.th}>Price</th>
-                    <th style={st.th}>Qty</th>
-                    <th style={st.th}>Total</th>
-                    <th style={st.th}></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cart.items.map((item) => (
-                    <tr key={item.sku}>
-                      <td style={st.td}>{item.name}</td>
-                      <td style={st.td}>${item.price.toFixed(2)}</td>
-                      <td style={st.td}>
-                        <div style={st.row}>
-                          <button style={st.qtyBtn} onClick={() => modifyQty(item.sku, item.quantity - 1)}>−</button>
-                          <span style={{ minWidth: "24px", textAlign: "center" }}>{item.quantity}</span>
-                          <button style={st.qtyBtn} onClick={() => modifyQty(item.sku, item.quantity + 1)}>+</button>
-                        </div>
-                      </td>
-                      <td style={st.td}>${item.line_total.toFixed(2)}</td>
-                      <td style={st.td}><button style={st.removeBtn} onClick={() => removeItem(item.sku)}>✕</button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div style={st.totals}>
-                <div>Subtotal: <strong>${cart.subtotal.toFixed(2)}</strong></div>
-                <div>Tax (8%): <strong>${cart.tax.toFixed(2)}</strong></div>
-                <div style={{ fontSize: "1.1rem" }}>Total: <strong>${cart.total.toFixed(2)}</strong></div>
-                <button style={st.checkoutBtn} onClick={placeOrder}>Place Order</button>
-              </div>
-            </>
-        }
-      </main>
-    </div>
+    <WindowShell>
+      <div style={st.pageTitle}>Your cart ♡</div>
+      {cart.items.length === 0 ? (
+        <p style={st.emptyMsg}>
+          Your cart is empty!{" "}
+          <button style={{ ...st.addBtn, marginLeft: "0.5rem" }} onClick={() => setView("menu")}>
+            Browse menu
+          </button>
+        </p>
+      ) : (
+        <>
+          <table style={st.table}>
+            <thead>
+              <tr>
+                <th style={st.th}>Item</th>
+                <th style={st.th}>Price</th>
+                <th style={st.th}>Qty</th>
+                <th style={st.th}>Total</th>
+                <th style={st.th}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.items.map((item) => (
+                <tr key={item.sku}>
+                  <td style={st.td}>
+                    <span style={{ marginRight: "0.4rem" }}>{ITEM_IMAGES[item.sku]}</span>
+                    {item.name}
+                  </td>
+                  <td style={st.td}>${item.price.toFixed(2)}</td>
+                  <td style={st.td}>
+                    <div style={st.row}>
+                      <button style={st.qtyBtn} onClick={() => modifyQty(item.sku, item.quantity - 1)}>−</button>
+                      <span style={{ minWidth: "20px", textAlign: "center" }}>{item.quantity}</span>
+                      <button style={st.qtyBtn} onClick={() => modifyQty(item.sku, item.quantity + 1)}>+</button>
+                    </div>
+                  </td>
+                  <td style={st.td}>${item.line_total.toFixed(2)}</td>
+                  <td style={st.td}>
+                    <button style={st.removeBtn} onClick={() => removeItem(item.sku)}>✕</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={st.totals}>
+            <div>Subtotal: ${cart.subtotal.toFixed(2)}</div>
+            <div>Tax (8%): ${cart.tax.toFixed(2)}</div>
+            <div style={{ color: "#e8789a" }}>Total: ${cart.total.toFixed(2)}</div>
+            <div>
+              <button style={st.checkoutBtn} onClick={placeOrder}>Place order 🍓</button>
+            </div>
+          </div>
+        </>
+      )}
+    </WindowShell>
   );
 
   return (
-    <div>
-      <header style={st.header}>
-        <span style={st.h1}>Tasty Bite</span>
-        <div>
-          <button style={st.navBtn} onClick={() => setView("menu")}>Menu</button>
-          <button style={st.navBtn} onClick={() => { refreshCart(); setView("cart"); }}>Cart {cartCount > 0 && `(${cartCount})`}</button>
-        </div>
-      </header>
-      <main style={st.main}>
-        <h2 style={{ marginBottom: "1rem" }}>Menu</h2>
-        {error && <div style={st.error}>{error}</div>}
-        <div style={st.grid}>
-          {menu.map((item) => (
-            <div key={item.sku} style={st.card}>
-              <div style={st.cardName}>{item.name}</div>
-              <div style={st.cardPrice}>${item.price.toFixed(2)}</div>
-              <div style={st.row}>
-                <input
-                  type="number" min={1}
-                  value={quantities[item.sku] || 1}
-                  onChange={(e) => setQuantities({ ...quantities, [item.sku]: Math.max(1, parseInt(e.target.value) || 1) })}
-                  style={st.numInput}
-                />
-                <button style={st.addBtn} onClick={() => addToCart(item.sku)}>Add to Cart</button>
-              </div>
+    <WindowShell>
+      <div style={st.pageTitle}>Ready to order? </div>
+      {error && <div style={st.error}>{error}</div>}
+      <div style={st.grid}>
+        {menu.map((item) => (
+          <div key={item.sku} style={st.card}>
+
+            {/* Emoji placeholder — swap for a real image later:
+                <img
+                  src={ITEM_IMAGES[item.sku]}
+                  alt={item.name}
+                  style={{ width: "100%", height: "130px", objectFit: "contain", background: "#fff0f3" }}
+                /> */}
+            <div style={st.cardImageArea}>
+              {ITEM_IMAGES[item.sku]}
             </div>
-          ))}
-        </div>
-      </main>
-    </div>
+
+            <div style={st.cardLabel}>{item.name.toUpperCase()}</div>
+
+            <div style={st.cardControls}>
+              <span style={st.cardPrice}>${item.price.toFixed(2)}</span>
+              <input
+                type="number"
+                min={1}
+                value={quantities[item.sku] || 1}
+                onChange={(e) =>
+                  setQuantities({ ...quantities, [item.sku]: Math.max(1, parseInt(e.target.value) || 1) })
+                }
+                style={st.numInput}
+              />
+              <button style={st.addBtn} onClick={() => addToCart(item.sku)}>
+                + add
+              </button>
+            </div>
+
+          </div>
+        ))}
+      </div>
+    </WindowShell>
   );
 }

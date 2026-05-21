@@ -1,3 +1,19 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: sans-serif; background: #f5f5f5; color: #222; }
+
+body {
+  font-family: sans-serif;
+  color: #222;
+  min-height: 100vh;
+
+  background-color: #ffe4ec;
+
+  background-image: radial-gradient(#f4a7b9 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
 button { cursor: pointer; font-family: inherit; }
+
+[style*="Press Start 2P"] {
+  -webkit-font-smoothing: none;
+  image-rendering: pixelated;
+}
