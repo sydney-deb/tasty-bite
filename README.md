@@ -7,7 +7,7 @@ A full-stack food ordering app with a **Python / Flask** backend and a **React**
 ```
 tasty-bite/
 ├── backend/
-│   ├── app.py            # Flask API (all original notebook logic)
+│   ├── app.py            # Flask API
 │   └── requirements.txt
 ├── frontend/
 │   ├── public/
