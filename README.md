@@ -1,4 +1,4 @@
-# 🍔 Tasty Bite — Full Stack Food Ordering App
+# 🍓 Tasty Bite
 
 A full-stack food ordering app with a **Python / Flask** backend and a **React** frontend.
 
@@ -56,13 +56,3 @@ The React app proxies API calls to `localhost:3001` automatically.
 | PUT | `/api/cart/modify` | Change quantity `{ sku, quantity }` |
 | DELETE | `/api/cart/<sku>` | Remove item |
 | POST | `/api/checkout` | Place order & clear cart |
-
-## Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: Tasty Bite full-stack app"
-git remote add origin https://github.com/YOUR_USERNAME/tasty-bite.git
-git push -u origin main
-```
